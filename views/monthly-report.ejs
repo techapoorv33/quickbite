@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monthly Report</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>📊 Monthly Expense Report</h1>
+
+    <!-- Month Selector -->
+    <form method="GET" action="/monthly-report">
+        <input type="month" name="month" required>
+        <button class="btn btn-primary">View</button>
+    </form>
+
+    <div class="card" style="margin-top:20px;">
+
+        <h2>Total Spent: ₹<%= totalSpent %></h2>
+        <p>Total Orders: <%= totalOrders %></p>
+
+    </div>
+
+    <div style="margin-top:30px;">
+        <% if(orders.length === 0){ %>
+            <p>No orders found for this month.</p>
+        <% } else { %>
+
+            <% orders.forEach(order => { %>
+
+                <div class="card">
+                    <p><strong>Date:</strong> <%= order.createdAt.toDateString() %></p>
+                    <p><strong>Total:</strong> ₹<%= order.totalAmount %></p>
+                    <p><strong>Status:</strong> <%= order.status %></p>
+                </div>
+
+            <% }) %>
+
+        <% } %>
+    </div>
+
+    <br>
+    <a href="/dashboard">⬅ Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Item</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="auth-card">
+
+        <h2>Add New Menu Item</h2>
+
+        <form action="/admin/add-item" method="POST">
+
+            <label>Name</label>
+            <input type="text" name="name" required>
+
+            <label>Description</label>
+            <input type="text" name="description" required>
+
+            <label>Price</label>
+            <input type="number" name="price" required>
+
+            <label>Emoji</label>
+            <input type="text" name="emoji">
+
+            <label>Category</label>
+            <select name="category" required>
+                <option>Burgers</option>
+                <option>Wraps</option>
+                <option>South Indian</option>
+                <option>Rice</option>
+                <option>Snacks</option>
+                <option>Beverages</option>
+                <option>North Indian</option>
+                <option>Italian</option>
+            </select>
+
+            <button class="btn btn-primary full">Add Item</button>
+
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div><strong>QuickBite 🍔</strong></div>
+    <div>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/menu">Menu</a>
+        <a href="/orders">My Orders</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h1>Your Cart 🛒</h1>
+
+    <% if (cart.length === 0) { %>
+
+        <div class="card">
+            <p>Your cart is empty.</p>
+            <a href="/menu">
+                <button class="btn btn-primary">Browse Menu</button>
+            </a>
+        </div>
+
+    <% } else { %>
+
+        <% cart.forEach(item => { %>
+
+            <div class="card">
+                <h3><%= item.name %></h3>
+
+                <p><strong>Price:</strong> ₹<%= item.price %></p>
+                <p><strong>Quantity:</strong> <%= item.quantity %></p>
+                <p><strong>Subtotal:</strong> ₹<%= item.price * item.quantity %></p>
+
+                <form action="/remove-item" method="POST">
+                    <input type="hidden" name="id" value="<%= item.id %>">
+                    <button class="btn btn-danger">Remove</button>
+                </form>
+            </div>
+
+        <% }) %>
+
+        <div class="card">
+
+            <form action="/apply-coupon" method="POST" style="margin-bottom:15px;">
+                <input type="text" name="code" placeholder="Enter Coupon Code" required>
+                <button class="btn btn-secondary">Apply</button>
+            </form>
+
+            <% if(discountAmount && discountAmount > 0){ %>
+            <p style="color:green; font-weight:600;">
+            Discount Applied: -₹<%= discountAmount %>
+            </p>
+            <% } %>
+
+            <h2>Total: ₹<%= total %></h2>
+
+            <form action="/checkout" method="POST">
+                <button class="btn btn-primary">Proceed to Checkout</button>
+            </form>
+
+x
+        </div>
+
+    <% } %>
+
+</div>
+
+</body>
+</html>

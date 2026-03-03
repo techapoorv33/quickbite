@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+    <script>
+    function showPaymentOption() {
+        const method = document.querySelector('input[name="method"]:checked').value;
+
+        const cardSection = document.getElementById("card-section");
+        const upiSection = document.getElementById("upi-section");
+
+        const cardInputs = cardSection.querySelectorAll("input");
+        const upiInputs = upiSection.querySelectorAll("input");
+
+        // Hide all
+        cardSection.style.display = "none";
+        upiSection.style.display = "none";
+
+        // Remove required from all
+        cardInputs.forEach(input => input.removeAttribute("required"));
+        upiInputs.forEach(input => input.removeAttribute("required"));
+
+        if (method === "card") {
+            cardSection.style.display = "block";
+            cardInputs.forEach(input => input.setAttribute("required", true));
+        }
+
+        if (method === "upi") {
+            upiSection.style.display = "block";
+            upiInputs.forEach(input => input.setAttribute("required", true));
+        }
+    }
+
+    window.onload = showPaymentOption;
+</script>
+</head>
+<body>
+
+<div style="display:flex; justify-content:center; align-items:center; min-height:100vh; background:linear-gradient(135deg,#6366f1,#8b5cf6);">
+
+    <div style="background:white; padding:50px; border-radius:20px; width:450px; box-shadow:0 20px 50px rgba(0,0,0,0.3);">
+
+        <h2 style="text-align:center;">💳 Payment Gateway</h2>
+        <p style="text-align:center; margin:15px 0;">
+            Total Amount: <strong>₹<%= total %></strong>
+        </p>
+
+        <form action="/process-payment" method="POST">
+
+            <h3>Select Payment Method</h3>
+
+            <label>
+                <input type="radio" name="method" value="card" checked onchange="showPaymentOption()">
+                Credit/Debit Card
+            </label><br>
+
+            <label>
+                <input type="radio" name="method" value="upi" onchange="showPaymentOption()">
+                UPI
+            </label><br>
+
+            <label>
+                <input type="radio" name="method" value="cash" onchange="showPaymentOption()">
+                Cash on Pickup
+            </label>
+
+            <!-- Card Section -->
+            <div id="card-section" style="margin-top:15px;">
+                <input type="text" placeholder="Card Number" style="width:100%; padding:10px; margin-bottom:10px;">
+                <input type="text" placeholder="Expiry (MM/YY)" style="width:100%; padding:10px; margin-bottom:10px;">
+                <input type="text" placeholder="CVV" style="width:100%; padding:10px;">
+            </div>
+
+            <!-- UPI Section -->
+            <div id="upi-section" style="margin-top:15px; display:none;">
+                <input type="text" placeholder="Enter UPI ID" style="width:100%; padding:10px;">
+            </div>
+
+            <button class="btn btn-primary" style="width:100%; margin-top:20px;">
+                Confirm Payment
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <div><strong>QuickBite Admin ⚙️</strong></div>
+    <div>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h1>Admin Panel</h1>
+
+    <div class="card">
+        <h2>Add Menu Item</h2>
+
+        <form action="/add-menu" method="POST">
+            <input name="name" placeholder="Name" required>
+            <input name="description" placeholder="Description" required>
+            <input name="price" type="number" placeholder="Price" required>
+            <input name="category" placeholder="Category" required>
+            <button class="btn btn-primary">Add Item</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>All Menu Items</h2>
+
+        <% menuItems.forEach(item => { %>
+            <p>
+                <strong><%= item.name %></strong> - ₹<%= item.price %>
+                <form action="/delete-menu" method="POST" style="display:inline;">
+                    <input type="hidden" name="id" value="<%= item._id %>">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </p>
+        <% }) %>
+    </div>
+
+    <div class="card">
+        <h2>All Users</h2>
+
+        <% users.forEach(user => { %>
+            <p><%= user.name %> - <%= user.role %></p>
+        <% }) %>
+    </div>
+
+    <div class="card">
+    <h2>Coupon Management 🎟️</h2>
+
+    <!-- Add Coupon Form -->
+    <form action="/add-coupon" method="POST" style="margin-bottom:20px;">
+        <input type="text" name="code" placeholder="Coupon Code" required>
+        <input type="number" name="discount" placeholder="Discount %" required>
+        <button class="btn btn-primary">Create Coupon</button>
+    </form>
+
+    <!-- List Coupons -->
+    <% if(coupons.length === 0){ %>
+        <p>No coupons created.</p>
+    <% } else { %>
+
+        <% coupons.forEach(coupon => { %>
+
+            <div style="margin-bottom:10px;">
+                <strong><%= coupon.code %></strong>
+                - <%= coupon.discount %>% 
+                - <%= coupon.active ? "Active" : "Inactive" %>
+
+                <form action="/delete-coupon" method="POST" style="display:inline;">
+                    <input type="hidden" name="id" value="<%= coupon._id %>">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+
+        <% }) %>
+
+    <% } %>
+
+</div>
+
+</div>
+
+</body>
+</html>

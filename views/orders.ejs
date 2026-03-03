@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">Quick<span>Bite</span></div>
+    <div>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/menu">Menu</a>
+        <a href="/logout">Logout</a>
+    </div>
+</nav>
+
+<div class="orders-container">
+
+    <h1>My Orders 📦</h1>
+
+    <% if (orders.length === 0) { %>
+
+        <div class="empty-state">
+            <h2>No Orders Yet 😕</h2>
+            <p>You haven’t placed any orders yet.</p>
+            <a href="/menu" class="btn btn-primary">Browse Menu</a>
+        </div>
+
+    <% } else { %>
+
+        <div class="orders-grid">
+
+            <% orders.forEach(order => { %>
+
+                <div class="order-card">
+
+                    <div class="order-header">
+                        <span class="order-id">
+                            Order #<%= order._id.toString().slice(-5) %>
+                        </span>
+
+                        <span class="status 
+                            <%= order.status === 'Pending' ? 'status-pending' :
+                                order.status === 'Preparing' ? 'status-preparing' :
+                                order.status === 'Ready' ? 'status-ready' :
+                                'status-completed' %>">
+                            <%= order.status %>
+                        </span>
+                    </div>
+
+                    <div class="order-body">
+                        <p><strong>Pickup Time:</strong> <%= order.pickupTime %></p>
+                        <p><strong>Total:</strong> ₹<%= order.totalAmount %></p>
+                        <p><strong>Items:</strong> <%= order.items.length %></p>
+                    </div>
+
+                    <div class="order-footer">
+
+                        <a href="/order/<%= order._id %>" class="btn btn-outline small">
+                            View Details
+                        </a>
+
+                        <% if(order.status === "Pending"){ %>
+                            <form action="/cancel-order" method="POST">
+                                <input type="hidden" name="id" value="<%= order._id %>">
+                                <button class="btn btn-danger small">
+                                    Cancel
+                                </button>
+                            </form>
+                        <% } %>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+    <% } %>
+
+</div>
+
+</body>
+</html>

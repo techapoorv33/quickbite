@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="auth-body">
+
+<nav class="navbar">
+    <div class="logo">Quick<span>Bite</span></div>
+    <div>
+        <a href="/login">Log in</a>
+        <a href="/register" class="btn btn-primary small">Sign up</a>
+    </div>
+</nav>
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <div class="auth-icon">🍔</div>
+
+        <h2>Create Account</h2>
+        <p class="auth-sub">Join QuickBite today</p>
+
+        <form action="/register" method="POST">
+
+            <label>Name</label>
+            <input type="text" name="name" placeholder="Your Name" required>
+
+            <label>Email</label>
+            <input type="email" name="email" placeholder="you@college.edu" required>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Create password" required>
+
+            <button class="btn btn-primary full">Sign up</button>
+
+        </form>
+
+        <p class="auth-switch">
+            Already have an account? <a href="/login">Log in</a>
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

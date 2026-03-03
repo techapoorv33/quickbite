@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <div><strong>QuickBite 👤</strong></div>
+    <div>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h1>Manage Profile</h1>
+
+    <div class="card">
+        <h3>Update Information</h3>
+
+        <form action="/update-profile" method="POST">
+            <input type="text" name="name" value="<%= user.name %>" required>
+            <input type="email" name="email" value="<%= user.email %>" required>
+            <button class="btn btn-primary">Update Profile</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Change Password</h3>
+
+        <form action="/change-password" method="POST">
+            <input type="password" name="currentPassword" placeholder="Current Password" required>
+            <input type="password" name="newPassword" placeholder="New Password" required>
+            <button class="btn btn-danger">Change Password</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Panel - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div><strong>QuickBite 👨‍🍳</strong></div>
+    <div>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h1>Order Management</h1>
+
+    <% if(orders.length === 0){ %>
+
+        <div class="card">
+            <p>No orders available.</p>
+        </div>
+
+    <% } else { %>
+
+        <% orders.forEach(order => { %>
+
+            <div class="card">
+
+                <h3>Order ID: <%= order._id %></h3>
+
+                <p><strong>Total:</strong> ₹<%= order.totalAmount %></p>
+                <p><strong>Pickup Time:</strong> <%= order.pickupTime %></p>
+
+                <p>
+                    <strong>Status:</strong> 
+                    <% if(order.status === "Pending"){ %>
+                        <span style="color:orange; font-weight:600;">Pending</span>
+                    <% } else if(order.status === "Preparing"){ %>
+                        <span style="color:#2563eb; font-weight:600;">Preparing</span>
+                    <% } else if(order.status === "Ready"){ %>
+                        <span style="color:green; font-weight:600;">Ready</span>
+                    <% } else { %>
+                        <span style="color:#6b7280; font-weight:600;">Completed</span>
+                    <% } %>
+                </p>
+
+                <form action="/update-status" method="POST">
+                    <input type="hidden" name="id" value="<%= order._id %>">
+
+                    <select name="status" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Preparing">Preparing</option>
+                        <option value="Ready">Ready</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+
+                    <button class="btn btn-primary">Update Status</button>
+                </form>
+
+            </div>
+
+        <% }) %>
+
+    <% } %>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">Quick<span>Bite</span></div>
+    <div>
+        <a href="/menu">Menu</a>
+        <a href="/orders">Orders</a>
+        <a href="/cart">Cart</a>
+        <a href="/dashboard"><%= user.name %></a>
+        <a href="/logout">Logout</a>
+    </div>
+</nav>
+
+<div class="profile-container">
+
+    <h1>Hello, <%= user.name %> 👋</h1>
+    <p class="role-text"><%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %> Account</p>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="icon">📦</div>
+            <h2><%= totalOrders %></h2>
+            <p>Total Orders</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="icon">₹</div>
+            <h2>₹<%= totalSpent %></h2>
+            <p>Total Spent</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="icon">⏳</div>
+            <h2><%= activeOrders %></h2>
+            <p>Active Orders</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="icon">📈</div>
+            <h2>₹<%= avgOrder.toFixed(0) %></h2>
+            <p>Avg. Order</p>
+        </div>
+
+    </div>
+
+    <div class="dashboard-buttons">
+        <a href="/menu" class="btn btn-primary">Order Food</a>
+        <a href="/orders" class="btn btn-outline">View All Orders</a>
+    </div>
+
+
+    <% if(user.role === "admin"){ %>
+
+<div style="margin-top:40px;">
+    <h2>Admin Controls</h2>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="icon">➕</div>
+            <h3>Add Menu Item</h3>
+            <p>Create new food item</p>
+            <a href="/admin/add-item" class="btn btn-primary" style="margin-top:10px;">
+                + Add Item
+            </a>
+        </div>
+
+        <div class="stat-card">
+            <div class="icon">⚙</div>
+            <h3>Manage Menu</h3>
+            <p>Edit or delete items</p>
+            <a href="/admin/manage-menu" class="btn btn-outline" style="margin-top:10px;">
+                Manage
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<% } %>
+</div>
+
+</body>
+</html>

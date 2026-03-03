@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">Quick<span>Bite</span></div>
+    <div>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/orders">Orders</a>
+        <a href="/cart">Cart</a>
+        <a href="/logout">Logout</a>
+    </div>
+</nav>
+
+<div class="menu-container">
+
+    <h1 class="menu-title">Menu</h1>
+    <p class="menu-sub">Choose from our delicious offerings</p>
+
+    <!-- SEARCH BAR -->
+    <input type="text" placeholder="Search food..." class="search-bar">
+
+    <!-- CATEGORY PILLS -->
+    <div class="category-bar">
+        <div class="category-pill active">All</div>
+        <div class="category-pill">Burgers</div>
+        <div class="category-pill">Wraps</div>
+        <div class="category-pill">South Indian</div>
+        <div class="category-pill">Rice</div>
+        <div class="category-pill">Snacks</div>
+        <div class="category-pill">Beverages</div>
+        <div class="category-pill">North Indian</div>
+        <div class="category-pill">Italian</div>
+    </div>
+
+    <!-- MENU GRID -->
+    <div class="menu-grid">
+
+        <% if (items.length === 0) { %>
+            <p>No items available</p>
+        <% } else { %>
+
+            <% items.forEach(item => { %>
+
+                <div class="menu-card">
+
+                    <div class="menu-top">
+                        <div class="food-icon"><%= item.emoji || "🍽" %></div>
+                        <div class="rating">⭐ <%= item.rating || "4.5" %></div>
+                    </div>
+
+                    <h3><%= item.name %></h3>
+                    <p class="desc"><%= item.description %></p>
+
+                    <div class="menu-bottom">
+                        <div>
+                            <p class="price">₹<%= item.price %></p>
+                            <p class="time">⏱ <%= item.time || "10" %> min</p>
+                        </div>
+
+                        <form action="/add-to-cart" method="POST">
+                            <input type="hidden" name="id" value="<%= item._id %>">
+                            <button class="add-btn">+ Add</button>
+                        </form>
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        <% } %>
+
+    </div>
+
+</div>
+
+</body>
+</html>
