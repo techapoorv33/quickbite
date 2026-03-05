@@ -567,6 +567,12 @@ app.get("/profile", (req, res) => {
         return res.redirect("/login");
     }
 
+    // Profile management is primarily for students;
+    // staff/admin are redirected to their respective home.
+    if (req.session.user.role !== "student") {
+        return res.redirect(homeForUser(req.session.user));
+    }
+
     res.render("profile", { user: req.session.user });
 
 });
@@ -633,6 +639,10 @@ app.post("/update-profile", async (req, res) => {
         return res.redirect("/login");
     }
 
+    if (req.session.user.role !== "student") {
+        return res.redirect(homeForUser(req.session.user));
+    }
+
     const { name, email } = req.body;
 
     await User.findByIdAndUpdate(req.session.user._id, {
@@ -651,6 +661,10 @@ app.post("/change-password", async (req, res) => {
 
     if (!req.session.user) {
         return res.redirect("/login");
+    }
+
+    if (req.session.user.role !== "student") {
+        return res.redirect(homeForUser(req.session.user));
     }
 
     const { currentPassword, newPassword } = req.body;
