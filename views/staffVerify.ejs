@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Token Verification - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <div><strong>QuickBite Staff 🔍</strong></div>
+    <div>
+        <a href="/staff">Dashboard</a>
+        <a href="/staff/orders">Orders</a>
+        <a href="/staff/menu">Menu Manager</a>
+        <a href="/staff/verify">Verify Token</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h1>QR Token Verification</h1>
+
+    <div class="card">
+        <form action="/staff/verify" method="GET">
+            <label>Scan QR and enter Order ID</label>
+            <input type="text" name="orderId" placeholder="Order ID from QR" value="<%= orderId %>" required>
+            <button class="btn btn-primary">Verify</button>
+        </form>
+    </div>
+
+    <% if(order){ %>
+        <div class="card" style="margin-top:20px;">
+            <h3>Order Details</h3>
+            <p><strong>Order ID:</strong> <%= order._id %></p>
+            <p><strong>Status:</strong> <%= order.status %></p>
+            <p><strong>Total:</strong> ₹<%= order.totalAmount %></p>
+            <p><strong>Pickup Time:</strong> <%= order.pickupTime || "-" %></p>
+
+            <form action="/staff/verify" method="POST" style="margin-top:10px;">
+                <input type="hidden" name="orderId" value="<%= order._id %>">
+                <button name="action" value="markReady" class="btn btn-secondary">Mark Ready</button>
+                <button name="action" value="markCompleted" class="btn btn-primary">Mark Completed</button>
+            </form>
+        </div>
+    <% } %>
+
+</div>
+
+</body>
+</html>
+

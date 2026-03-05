@@ -12,6 +12,11 @@
         <a href="/menu">Menu</a>
         <a href="/orders">Orders</a>
         <a href="/cart">Cart</a>
+
+        <% if(user.role === "staff"){ %>
+<a href="/staff">Staff Panel</a>
+<% } %>
+
         <a href="/dashboard"><%= user.name %></a>
         <a href="/logout">Logout</a>
     </div>
@@ -76,7 +81,7 @@
             <div class="icon">⚙</div>
             <h3>Manage Menu</h3>
             <p>Edit or delete items</p>
-            <a href="/admin/manage-menu" class="btn btn-outline" style="margin-top:10px;">
+            <a href="/admin" class="btn btn-outline" style="margin-top:10px;">
                 Manage
             </a>
         </div>

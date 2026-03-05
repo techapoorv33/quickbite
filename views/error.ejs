@@ -6,19 +6,17 @@
 </head>
 <body>
 
-<div style="display:flex; height:100vh; justify-content:center; align-items:center; background:linear-gradient(135deg,#ff7a18,#ffb347);">
+<div class="center-screen bg-gradient-orange">
 
-    <div style="background:white; padding:40px; border-radius:15px; width:400px; text-align:center; box-shadow:0 15px 40px rgba(0,0,0,0.2);">
+    <div class="modal-card" style="text-align:center;">
 
-        <h2 style="color:#ef4444;">⚠️ Oops!</h2>
+        <h2 style="color: var(--danger-600);">⚠️ Oops!</h2>
 
-        <p style="font-size:18px; margin:20px 0;">
+        <p style="font-size: 16px; margin: 14px 0 18px; color: rgba(15, 23, 42, 0.85);">
             <%= message %>
         </p>
 
-        <a href="<%= backLink %>">
-            <button class="btn btn-primary">Go Back</button>
-        </a>
+        <a class="btn btn-primary" href="<%= backLink %>">Go Back</a>
 
     </div>
 

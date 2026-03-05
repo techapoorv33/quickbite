@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Feedback - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <div><strong>QuickBite ⭐</strong></div>
+    <div>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/orders">My Orders</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h1>Rate Your Order</h1>
+
+    <div class="card">
+        <p><strong>Order ID:</strong> <%= order._id %></p>
+        <p><strong>Total Amount:</strong> ₹<%= order.totalAmount %></p>
+        <p><strong>Pickup Time:</strong> <%= order.pickupTime %></p>
+    </div>
+
+    <div class="card">
+        <form action="/feedback/<%= order._id %>" method="POST">
+            <label>Rating (1–5)</label>
+            <input type="number" name="rating" min="1" max="5" required>
+
+            <label>Comment (optional)</label>
+            <textarea name="comment" placeholder="Share your experience..." rows="4"></textarea>
+
+            <button class="btn btn-primary">Submit Feedback</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>
+

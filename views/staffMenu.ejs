@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Menu Manager - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <div><strong>QuickBite Staff 👨‍🍳</strong></div>
+    <div>
+        <a href="/staff">Dashboard</a>
+        <a href="/staff/orders">Orders</a>
+        <a href="/staff/menu">Menu Manager</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h1>Menu Manager</h1>
+
+    <div class="card">
+        <h3>Add Item</h3>
+
+        <form action="/staff/add-item" method="POST">
+            <input name="name" placeholder="Food Name" required>
+            <input name="price" type="number" placeholder="Price" required>
+            <input name="category" placeholder="Category" required>
+            <input name="description" placeholder="Description" required>
+            <input name="prepTime" type="number" placeholder="Prep Time (min)" required>
+            <button class="btn btn-primary">Add Item</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Items</h3>
+
+        <% if(!items || items.length === 0){ %>
+            <p>No menu items found.</p>
+        <% } else { %>
+            <% items.forEach(item => { %>
+                <div style="padding:12px 0; border-bottom:1px solid #eee;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+                        <div>
+                            <strong><%= item.name %></strong>
+                            <div style="color:#6b7280; margin-top:4px;">
+                                ₹<%= item.price %> • <%= item.category %> • Prep: <%= item.prepTime || 10 %> min
+                            </div>
+                            <div style="margin-top:4px;">
+                                Status: <strong><%= item.available ? "Available" : "Not Available" %></strong>
+                            </div>
+                        </div>
+
+                        <form action="/staff/toggle-item" method="POST" style="margin:0;">
+                            <input type="hidden" name="id" value="<%= item._id %>">
+                            <button class="btn btn-outline">Toggle Availability</button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+
+</div>
+
+</body>
+</html>

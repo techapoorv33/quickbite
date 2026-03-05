@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Staff Panel</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div class="navbar">
+<h2>QuickBite Staff</h2>
+
+<div>
+<a href="/staff">Dashboard</a>
+<a href="/staff/orders">Orders</a>
+<a href="/staff/menu">Menu Manager</a>
+<a href="/staff/verify">Verify Token</a>
+<a href="/logout">Logout</a>
+</div>
+</div>
+
+<div class="container">
+
+<h1>Kitchen Dashboard</h1>
+
+<div class="stats-grid">
+
+<div class="stat-card">
+<h2><%= pending %></h2>
+<p>Pending Orders</p>
+</div>
+
+<div class="stat-card">
+<h2><%= preparing %></h2>
+<p>Preparing</p>
+</div>
+
+<div class="stat-card">
+<h2><%= ready %></h2>
+<p>Ready</p>
+</div>
+
+<div class="stat-card">
+<h2><%= completed %></h2>
+<p>Completed</p>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

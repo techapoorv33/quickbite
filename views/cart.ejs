@@ -65,10 +65,10 @@
             <h2>Total: ₹<%= total %></h2>
 
             <form action="/checkout" method="POST">
+                <label style="display:block; margin:12px 0 6px; font-weight:600;">Pickup Time</label>
+                <input type="time" name="pickupTime" required style="width:100%; margin-bottom:12px;">
                 <button class="btn btn-primary">Proceed to Checkout</button>
             </form>
-
-x
         </div>
 
     <% } %>

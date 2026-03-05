@@ -37,47 +37,47 @@
 </head>
 <body>
 
-<div style="display:flex; justify-content:center; align-items:center; min-height:100vh; background:linear-gradient(135deg,#6366f1,#8b5cf6);">
+<div class="center-screen bg-gradient-purple">
 
-    <div style="background:white; padding:50px; border-radius:20px; width:450px; box-shadow:0 20px 50px rgba(0,0,0,0.3);">
+    <div class="modal-card">
 
         <h2 style="text-align:center;">💳 Payment Gateway</h2>
-        <p style="text-align:center; margin:15px 0;">
-            Total Amount: <strong>₹<%= total %></strong>
+        <p class="muted" style="text-align:center; margin:10px 0 18px;">
+            Total Amount: <strong style="color: var(--text);">₹<%= total %></strong>
         </p>
 
         <form action="/process-payment" method="POST">
 
             <h3>Select Payment Method</h3>
 
-            <label>
+            <label style="display:flex; align-items:center; gap:10px;">
                 <input type="radio" name="method" value="card" checked onchange="showPaymentOption()">
                 Credit/Debit Card
-            </label><br>
+            </label>
 
-            <label>
+            <label style="display:flex; align-items:center; gap:10px;">
                 <input type="radio" name="method" value="upi" onchange="showPaymentOption()">
                 UPI
-            </label><br>
+            </label>
 
-            <label>
+            <label style="display:flex; align-items:center; gap:10px;">
                 <input type="radio" name="method" value="cash" onchange="showPaymentOption()">
                 Cash on Pickup
             </label>
 
             <!-- Card Section -->
-            <div id="card-section" style="margin-top:15px;">
-                <input type="text" placeholder="Card Number" style="width:100%; padding:10px; margin-bottom:10px;">
-                <input type="text" placeholder="Expiry (MM/YY)" style="width:100%; padding:10px; margin-bottom:10px;">
-                <input type="text" placeholder="CVV" style="width:100%; padding:10px;">
+            <div id="card-section" style="margin-top:10px;">
+                <input type="text" placeholder="Card Number">
+                <input type="text" placeholder="Expiry (MM/YY)">
+                <input type="text" placeholder="CVV">
             </div>
 
             <!-- UPI Section -->
-            <div id="upi-section" style="margin-top:15px; display:none;">
-                <input type="text" placeholder="Enter UPI ID" style="width:100%; padding:10px;">
+            <div id="upi-section" style="margin-top:10px; display:none;">
+                <input type="text" placeholder="Enter UPI ID">
             </div>
 
-            <button class="btn btn-primary" style="width:100%; margin-top:20px;">
+            <button class="btn btn-primary full" style="margin-top:6px;">
                 Confirm Payment
             </button>
 

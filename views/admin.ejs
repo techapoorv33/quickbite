@@ -48,7 +48,16 @@
         <h2>All Users</h2>
 
         <% users.forEach(user => { %>
-            <p><%= user.name %> - <%= user.role %></p>
+            <form action="/admin/update-user" method="POST" style="margin-bottom:8px; display:flex; gap:8px; align-items:center;">
+                <input type="hidden" name="id" value="<%= user._id %>">
+                <span style="flex:1;"><strong><%= user.name %></strong> (<%= user.email %>)</span>
+                <select name="role" style="padding:4px 8px;">
+                    <option value="student" <%= user.role === "student" ? "selected" : "" %>>Student</option>
+                    <option value="staff" <%= user.role === "staff" ? "selected" : "" %>>Staff</option>
+                    <option value="admin" <%= user.role === "admin" ? "selected" : "" %>>Admin</option>
+                </select>
+                <button class="btn btn-secondary">Update</button>
+            </form>
         <% }) %>
     </div>
 
@@ -84,7 +93,31 @@
 
     <% } %>
 
-</div>
+    </div>
+
+    <div class="card">
+        <h2>Recent Feedback ⭐</h2>
+
+        <% if(!feedbacks || feedbacks.length === 0){ %>
+            <p>No feedback submitted yet.</p>
+        <% } else { %>
+            <% feedbacks.forEach(fb => { %>
+                <div style="margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:8px;">
+                    <p>
+                        <strong>User:</strong>
+                        <%= fb.userId ? fb.userId.name : "Unknown" %>
+                        |
+                        <strong>Order:</strong>
+                        <%= fb.orderId ? fb.orderId._id.toString().slice(-5) : "N/A" %>
+                    </p>
+                    <p><strong>Rating:</strong> <%= fb.rating %>/5</p>
+                    <% if(fb.comment){ %>
+                        <p><strong>Comment:</strong> <%= fb.comment %></p>
+                    <% } %>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
 
 </div>
 

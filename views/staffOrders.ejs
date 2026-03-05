@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Orders - QuickBite</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <div><strong>QuickBite Staff 👨‍🍳</strong></div>
+    <div>
+        <a href="/staff">Dashboard</a>
+        <a href="/staff/orders">Orders</a>
+        <a href="/staff/menu">Menu Manager</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <h1>Kitchen Orders</h1>
+
+    <% if(!orders || orders.length === 0){ %>
+        <div class="card">
+            <p>No orders yet.</p>
+        </div>
+    <% } else { %>
+        <% orders.forEach(order => { %>
+            <div class="card">
+                <h3>Order ID: <%= order._id %></h3>
+                <p><strong>Status:</strong> <%= order.status %></p>
+                <p><strong>Total:</strong> ₹<%= order.totalAmount %></p>
+                <p><strong>Pickup Time:</strong> <%= order.pickupTime || "-" %></p>
+
+                <form action="/staff/update-status" method="POST">
+                    <input type="hidden" name="orderId" value="<%= order._id %>">
+                    <select name="status" required>
+                        <option value="Pending" <%= order.status === "Pending" ? "selected" : "" %>>Pending</option>
+                        <option value="Preparing" <%= order.status === "Preparing" ? "selected" : "" %>>Preparing</option>
+                        <option value="Ready" <%= order.status === "Ready" ? "selected" : "" %>>Ready</option>
+                        <option value="Completed" <%= order.status === "Completed" ? "selected" : "" %>>Completed</option>
+                        <option value="Cancelled" <%= order.status === "Cancelled" ? "selected" : "" %>>Cancelled</option>
+                    </select>
+                    <button class="btn btn-primary">Update Status</button>
+                </form>
+            </div>
+        <% }) %>
+    <% } %>
+</div>
+
+</body>
+</html>
