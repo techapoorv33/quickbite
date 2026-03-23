@@ -17,6 +17,11 @@ app.use(express.static("public"));
 // View engine
 app.set("view engine", "ejs");
 
+app.use((req, res, next) => {
+    const cart = req.session.cart || [];
+    res.locals.cartCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    next();
+});
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
 .then(async () => {

@@ -11,7 +11,7 @@
     <div>
         <a href="/dashboard">Dashboard</a>
         <a href="/orders">Orders</a>
-        <a href="/cart">Cart</a>
+        <a href="/cart" class="cart-link">🛒 Cart<% if(cartCount > 0){ %><span class="cart-badge"><%= cartCount %></span><% } %></a>
         <a href="/profile">Profile</a>
         <a href="/logout">Logout</a>
     </div>
