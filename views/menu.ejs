@@ -54,6 +54,10 @@
                         <div class="rating">⭐ <%= item.rating || "4.5" %></div>
                     </div>
 
+                    <% if(item.imageUrl){ %>
+                        <img src="<%= item.imageUrl %>" alt="<%= item.name %>" class="menu-image">
+                    <% } %>
+
                     <h3><%= item.name %></h3>
                     <p class="desc"><%= item.description %></p>
 

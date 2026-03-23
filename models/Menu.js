@@ -6,9 +6,16 @@ const menuSchema = new mongoose.Schema({
     category: String,
     description: String,
     emoji: String,
+    // Image URL to display in menu cards (admin/staff can set this)
+    imageUrl: {
+        type: String,
+        default: ""
+    },
     rating: {
         type: Number,
-        default: 4.5
+        default: 4.5,
+        min: 1,
+        max: 5
     },
     prepTime: Number,
     available: {

@@ -22,6 +22,23 @@
     <h1>QR Token Verification</h1>
 
     <div class="card">
+        <h3>Scan QR (Camera)</h3>
+        <p class="muted" style="margin-top:6px; margin-bottom:14px;">
+            Scan the QR code from the student order token.
+        </p>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn btn-primary" type="button" id="startScan">Start Scanner</button>
+            <button class="btn btn-secondary" type="button" id="stopScan" style="display:none;">Stop</button>
+        </div>
+
+        <div id="scannerArea" style="margin-top:14px; display:none;">
+            <video id="qrVideo" playsinline style="width:100%; border-radius:14px; border:1px solid rgba(15,23,42,0.08);"></video>
+            <div class="muted" style="margin-top:10px; text-align:center;" id="scanStatus">Scanning...</div>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
         <form action="/staff/verify" method="GET">
             <label>Scan QR and enter Order ID</label>
             <input type="text" name="orderId" placeholder="Order ID from QR" value="<%= orderId %>" required>
@@ -46,6 +63,106 @@
     <% } %>
 
 </div>
+
+<script>
+    (function () {
+        const startBtn = document.getElementById("startScan");
+        const stopBtn = document.getElementById("stopScan");
+        const scannerArea = document.getElementById("scannerArea");
+        const video = document.getElementById("qrVideo");
+        const scanStatus = document.getElementById("scanStatus");
+        const orderIdInput = document.querySelector('input[name="orderId"]');
+
+        let stream = null;
+        let scanning = false;
+
+        async function stopScanner() {
+            scanning = false;
+            scanStatus && (scanStatus.textContent = "Stopped");
+            if (stream) {
+                stream.getTracks().forEach(t => t.stop());
+            }
+            stream = null;
+            if (video) video.srcObject = null;
+        }
+
+        async function startScanner() {
+            if (!("BarcodeDetector" in window)) {
+                alert("QR scanning is not supported in this browser. Use manual Order ID input instead.");
+                return;
+            }
+
+            try {
+                const detector = new BarcodeDetector({ formats: ["qr_code"] });
+                scanning = true;
+                scanStatus && (scanStatus.textContent = "Point camera at QR code");
+
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment" },
+                    audio: false
+                });
+
+                video.srcObject = stream;
+                await video.play();
+
+                scannerArea.style.display = "block";
+                startBtn && (startBtn.style.display = "none");
+                stopBtn && (stopBtn.style.display = "inline-block");
+
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+                const tick = async () => {
+                    if (!scanning) return;
+                    if (video.readyState < 2) {
+                        requestAnimationFrame(tick);
+                        return;
+                    }
+
+                    const w = video.videoWidth;
+                    const h = video.videoHeight;
+                    if (!w || !h) {
+                        requestAnimationFrame(tick);
+                        return;
+                    }
+
+                    canvas.width = w;
+                    canvas.height = h;
+                    ctx.drawImage(video, 0, 0, w, h);
+
+                    try {
+                        const barcodes = await detector.detect(canvas);
+                        if (barcodes && barcodes.length > 0) {
+                            const raw = barcodes[0].rawValue || "";
+                            const decoded = String(raw).trim();
+                            if (!decoded) return;
+
+                            // Stop immediately and redirect to verify page
+                            await stopScanner();
+                            if (orderIdInput) orderIdInput.value = decoded;
+                            window.location.href = "/staff/verify?orderId=" + encodeURIComponent(decoded);
+                            return;
+                        }
+                    } catch (e) {
+                        // ignore frame-level decode errors
+                    }
+
+                    requestAnimationFrame(tick);
+                };
+
+                requestAnimationFrame(tick);
+            } catch (err) {
+                console.error(err);
+                alert("Could not start camera. Please allow camera permissions and try again.");
+                await stopScanner();
+            }
+        }
+
+        startBtn && startBtn.addEventListener("click", startScanner);
+        stopBtn && stopBtn.addEventListener("click", stopScanner);
+        window.addEventListener("beforeunload", stopScanner);
+    })();
+</script>
 
 </body>
 </html>

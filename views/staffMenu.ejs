@@ -42,7 +42,10 @@
             <% items.forEach(item => { %>
                 <div style="padding:12px 0; border-bottom:1px solid #eee;">
                     <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-                        <div>
+                        <div style="display:flex; gap:12px; align-items:center; flex:1;">
+                            <% if(item.imageUrl){ %>
+                                <img src="<%= item.imageUrl %>" alt="<%= item.name %>" style="width:54px; height:54px; border-radius:12px; object-fit:cover; border:1px solid rgba(15,23,42,0.08);">
+                            <% } %>
                             <strong><%= item.name %></strong>
                             <div style="color:#6b7280; margin-top:4px;">
                                 ₹<%= item.price %> • <%= item.category %> • Prep: <%= item.prepTime || 10 %> min

@@ -445,13 +445,16 @@ app.post("/add-menu", async (req, res) => {
         return res.send("Access Denied ❌");
     }
 
-    const { name, description, price, category } = req.body;
+    const { name, description, price, category, rating, imageUrl } = req.body;
+    const parsedRating = rating === undefined || rating === "" ? undefined : Number(rating);
 
     await Menu.create({
         name,
         description,
         price,
-        category
+        category,
+        rating: parsedRating,
+        imageUrl: imageUrl || ""
     });
 
     res.redirect("/admin");
@@ -465,6 +468,24 @@ app.post("/delete-menu", async (req, res) => {
 
     await Menu.findByIdAndDelete(req.body.id);
 
+    res.redirect("/admin");
+});
+
+app.post("/admin/update-menu", async (req, res) => {
+    if (!req.session.user || req.session.user.role !== "admin") {
+        return res.send("Access Denied ❌");
+    }
+
+    const { id, rating, imageUrl } = req.body;
+
+    const update = {};
+    if (rating !== undefined && rating !== "") {
+        const parsedRating = Number(rating);
+        if (!Number.isNaN(parsedRating)) update.rating = parsedRating;
+    }
+    update.imageUrl = (imageUrl || "").trim();
+
+    await Menu.findByIdAndUpdate(id, update);
     res.redirect("/admin");
 });
 
@@ -766,8 +787,9 @@ app.post("/admin/add-item", async (req, res) => {
         price: Number(req.body.price),
         emoji: req.body.emoji,
         category: req.body.category,
-        rating: 4.5,
-        prepTime: 10
+        rating: req.body.rating ? Number(req.body.rating) : 4.5,
+        prepTime: 10,
+        imageUrl: req.body.imageUrl || ""
     });
 
     await newItem.save();
