@@ -18,8 +18,11 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 app.use((req, res, next) => {
-    const cart = req.session.cart || [];
-    res.locals.cartCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    // `express-session` is added later in this file, so guard `req.session`.
+    const cart = req.session?.cart || [];
+    res.locals.cartCount = Array.isArray(cart)
+        ? cart.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0)
+        : 0;
     next();
 });
 // MongoDB connection
@@ -42,6 +45,15 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+
+// Compute cart item count for navbar badges (after session is available)
+app.use((req, res, next) => {
+    const cart = req.session?.cart || [];
+    res.locals.cartCount = Array.isArray(cart)
+        ? cart.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0)
+        : 0;
+    next();
+});
 
 function normalizeEmail(email) {
     return String(email || "").trim().toLowerCase();
@@ -921,6 +933,24 @@ app.post("/staff/toggle-item", async (req,res)=>{
 });
 // Server
 const PORT = process.env.PORT || 3000;
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).render("error", {
+        message: "Page not found ❌",
+        backLink: req.session?.user ? homeForUser(req.session.user) : "/"
+    });
+});
+
+// Error handler (avoid raw internal server errors)
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+    console.error("Unhandled error:", err);
+    res.status(500).render("error", {
+        message: "Internal Server Error ❌",
+        backLink: req.session?.user ? homeForUser(req.session.user) : "/login"
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

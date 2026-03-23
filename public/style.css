@@ -147,6 +147,29 @@ hr {
     opacity: 1;
 }
 
+/* Cart badge (like Swiggy/Zomato) */
+.cart-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cart-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: rgba(255, 107, 0, 0.14);
+    border: 1px solid rgba(255, 107, 0, 0.35);
+    color: var(--primary-600);
+    font-weight: 800;
+    font-size: 12px;
+    line-height: 1;
+}
+
 /* BUTTONS */
 .btn {
     padding: 12px 22px;
